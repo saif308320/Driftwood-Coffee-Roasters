@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomad Roasters | Small-Batch Coffee, Portland</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--t:#c45c26;--td:#9a3f16;--b:#23140e;--c:#f4ead8;--cd:#e8d9c0;--ink:#1c120c;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Outfit",system-ui,sans-serif}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--b);color:var(--c);overflow-x:hidden}
+    img{max-width:100%;display:block;width:100%;height:100%;object-fit:cover}
+    a{color:inherit;text-decoration:none}
+    .grain{pointer-events:none;position:fixed;inset:0;z-index:40;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .bg-stack{position:fixed;inset:0;z-index:0}
+    .bg-layer{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease;filter:saturate(.8) brightness(.42)}
+    .bg-layer.is-active{opacity:1}
+    .bg-stack::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,14,8,.3),rgba(26,14,8,.72))}
+    .ind{position:fixed;top:1.3rem;right:1.4rem;z-index:50;text-align:right}
+    .ind b{display:block;font-family:var(--serif);font-size:2.4rem;line-height:1}
+    .ind small{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:.65rem;opacity:.7}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:45;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem}
+    .logo{font-family:var(--serif);font-size:1.35rem}.logo i{font-style:italic;opacity:.75;margin-left:.25rem}
+    .nav-tog{display:none;background:0;border:0;width:28px;height:18px;position:relative;cursor:pointer}
+    .nav-tog span{position:absolute;left:0;right:0;height:1.5px;background:var(--c)}.nav-tog span:first-child{top:4px}.nav-tog span:last-child{bottom:4px}
+    .nav-links{display:flex;gap:1.15rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+    .nav-links a{opacity:.8}.nav-links a:hover{opacity:1;color:var(--cd)}
+    .ch{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:6.5rem 8vw 4rem}
+    .mimg{display:none}
+    .k{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--t);margin-bottom:1.1rem}
+    h1,h2{font-family:var(--serif);font-weight:500;line-height:.95}
+    h1{font-size:clamp(3.2rem,8.5vw,7rem);margin-bottom:1.3rem}
+    h2{font-size:clamp(2.4rem,5.4vw,4.6rem);margin-bottom:1.2rem}
+    .lead,.body{max-width:38rem;font-weight:300;line-height:1.75;opacity:.9}
+    .btn{display:inline-flex;align-items:center;padding:.95rem 1.5rem;border:0;cursor:pointer;font-family:var(--sans);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:transform .25s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-c{background:var(--c);color:var(--b)}.btn-t{background:var(--t);color:var(--c)}
+    .hero{align-items:flex-end;padding-bottom:7rem}
+    .steam{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+    .steam span{position:absolute;bottom:18%;width:80px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(244,234,216,.22),transparent 70%);filter:blur(12px);animation:st 7s ease-in-out infinite}
+    .steam span:nth-child(1){left:12%}.steam span:nth-child(2){left:28%;animation-delay:1.2s}.steam span:nth-child(3){left:52%;animation-delay:.6s}.steam span:nth-child(4){left:70%;animation-delay:2s}.steam span:nth-child(5){left:84%;animation-delay:1.4s;width:50px}
+    @keyframes st{0%{transform:translateY(40px) scale(.7);opacity:0}30%{opacity:.7}100%{transform:translateY(-220px) scale(1.4);opacity:0}}
+    .scroll{position:absolute;bottom:2rem;left:8vw;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;opacity:.7}
+    .olist,.blist{list-style:none;margin-top:1.8rem;border-top:1px solid rgba(244,234,216,.18)}
+    .olist li,.blist li{padding:1.1rem 0;border-bottom:1px solid rgba(244,234,216,.18)}
+    .olist strong,.blist .n{display:block;font-family:var(--serif);font-size:1.55rem;font-weight:500}
+    .olist span{font-size:.9rem;opacity:.75;font-weight:300}
+    .bh{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;margin-bottom:.35rem}
+    .ty{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t);white-space:nowrap}
+    .curve{margin-top:1.6rem;max-width:640px}
+    .curve svg{width:100%;height:auto}
+    .g line{stroke:rgba(244,234,216,.25)}
+    .axis{fill:rgba(244,234,216,.55);font-size:11px;font-family:var(--sans)}
+    .cl{fill:none;stroke:var(--t);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900}
+    .in-view .cl{animation:dr 2.2s ease forwards}
+    @keyframes dr{to{stroke-dashoffset:0}}
+    .meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.7rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+    .tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.4rem 0}
+    .tabs button{background:0;border:1px solid rgba(244,234,216,.28);color:var(--c);padding:.55rem 1rem;font-family:var(--sans);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+    .tabs button.on{background:var(--c);color:var(--b);border-color:var(--c)}
+    .panel{display:none}.panel.on{display:block}
+    .panel ol{padding-left:1.2rem;line-height:1.9;font-weight:300}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1.8rem;max-width:46rem}
+    .g3 h3{font-family:var(--serif);font-size:1.35rem;font-weight:500;margin-bottom:.35rem}
+    .g3 p{font-weight:300;line-height:1.6;opacity:.85}
+    form{display:grid;gap:.9rem;margin-top:1.4rem;max-width:28rem}
+    label{display:grid;gap:.35rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+    input,select,textarea{background:rgba(244,234,216,.08);border:1px solid rgba(244,234,216,.22);color:var(--c);padding:.85rem;font-family:var(--sans);font-size:.95rem}
+    option{color:var(--b)}
+    .note{font-size:.9rem;color:var(--cd)}
+    .hours{position:relative;z-index:2;padding:4.5rem 8vw;background:#1a100b}
+    .hours h2{margin-bottom:1.5rem}
+    .faq{position:relative;z-index:2;padding:4.5rem 8vw;background:#160e09}
+    details{border-bottom:1px solid rgba(244,234,216,.15);padding:1rem 0}
+    summary{cursor:pointer;font-family:var(--serif);font-size:1.35rem;list-style:none}
+    details p{margin-top:.6rem;opacity:.8;font-weight:300;max-width:40rem;line-height:1.7}
+    .wh{position:relative;z-index:2;padding:5rem 8vw;background:rgba(22,14,9,.55)}
+    .stats{display:flex;flex-wrap:wrap;gap:2.2rem;margin-top:1.6rem}
+    .stats b{display:block;font-family:var(--serif);font-size:2.4rem}
+    .stats span{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+    .journal{position:relative;z-index:2;padding:5rem 8vw}
+    .jgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.6rem}
+    .jcard{background:rgba(244,234,216,.06);border:1px solid rgba(244,234,216,.12)}
+    .jcard img{height:180px}
+    .jcard div{padding:1.1rem}
+    .jcard h3{font-family:var(--serif);font-size:1.3rem;margin:.3rem 0}
+    .jcard p{font-size:.9rem;opacity:.75;font-weight:300;line-height:1.55}
+    .ev{position:relative;z-index:2;padding:5rem 8vw;background:#1a100b}
+    .ev ul{list-style:none;margin-top:1.4rem}
+    .ev li{display:grid;grid-template-columns:7rem 1fr;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(244,234,216,.15)}
+    .ev time{color:var(--t);font-size:.8rem;letter-spacing:.08em}
+    footer{position:relative;z-index:2;background:#110b08;padding:3.2rem 8vw 2rem}
+    .fbrand{font-family:var(--serif);font-size:1.8rem;margin-bottom:1.2rem}
+    .fcols{display:flex;gap:3.5rem;font-weight:300;line-height:1.7;opacity:.85;flex-wrap:wrap}
+    .copy{margin-top:1.8rem;font-size:.75rem;opacity:.5}
+    @media(max-width:900px){
+      .nav-tog{display:block;z-index:60}
+      .nav-links{position:fixed;inset:0;background:var(--b);flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-size:1rem;transform:translateY(-100%);transition:transform .35s}
+      .nav-links.open{transform:none}
+      .ind{top:auto;bottom:1rem;right:1rem;background:rgba(26,14,8,.75);padding:.5rem .7rem}
+      .ind b{font-size:1.5rem}
+      .bg-stack{display:none}
+      .ch{min-height:auto;flex-direction:column;align-items:stretch;padding:0 0 3.2rem;background:var(--b)}
+      .hero{min-height:100vh;min-height:100dvh;background:linear-gradient(180deg,rgba(26,14,8,.2),rgba(26,14,8,.82)),url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80") center/cover;padding:7rem 6vw 5rem;justify-content:flex-end}
+      .mimg{display:block;height:46vw;min-height:190px;max-height:280px;background-size:cover;background-position:center;margin-bottom:1.6rem}
+      .cc{padding:0 6vw}
+      .g3,.jgrid{grid-template-columns:1fr}
+      .bh{flex-direction:column;gap:.2rem}
+      .hours,.faq,.wh,.journal,.ev,footer{padding-left:6vw;padding-right:6vw}
+      .fcols{flex-direction:column;gap:1rem}
+      .scroll{left:6vw}
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="bg-stack" aria-hidden="true">
+    <div class="bg-layer is-active" data-bg="00" style="background-image:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="01" style="background-image:url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="02" style="background-image:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="03" style="background-image:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="04" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="05" style="background-image:url('https://images.unsplash.com/photo-1453614512568-7af3a797241f?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="06" style="background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80')"></div>
+  </div>
+  <aside class="ind"><small id="ct">Prologue</small><b id="cn">00</b></aside>
+  <header class="nav">
+    <a class="logo" href="#hero">Nomad<i>Roasters</i></a>
+    <button class="nav-tog" id="navT" aria-label="Menu"><span></span><span></span></button>
+    <nav class="nav-links" id="navL">
+      <a href="#ch01">Origin</a><a href="#ch02">Roast</a><a href="#ch03">Blends</a>
+      <a href="#ch04">Brew</a><a href="#hours">Cafe</a><a href="#wh">Wholesale</a><a href="#ch06">Subscribe</a>
+    </nav>
+  </header>
+  <main>
+    <section class="ch hero" id="hero" data-c="00" data-t="Prologue" data-bg="00">
+      <div class="steam"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <p class="k">Portland · Est. 2014 · Warehouse District</p>
+        <h1>From soil<br><em>to sip.</em></h1>
+        <p class="lead">A specialty roastery that traces every bag to a named farm. Small lots, one 15kg Probat, and a cafe that still smells like first crack.</p>
+        <a class="btn btn-c" href="#ch01">Begin the journey</a>
+      </div>
+      <div class="scroll">Scroll the chapters</div>
+    </section>
+    <section class="ch" id="ch01" data-c="01" data-t="The Origin" data-bg="01">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">01 — The Origin</p>
+        <h2>Grown high.<br>Picked by hand.</h2>
+        <p class="body">We buy washed and natural lots from farms we have stood on. Elevation, cultivar, and the farmer’s name sit on every bag — never a vague “blend of origins.”</p>
+        <ul class="olist">
+          <li><strong>Yirgacheffe, Ethiopia</strong><span>1,900–2,200 m · heirloom · jasmine, bergamot, white peach</span></li>
+          <li><strong>Huila, Colombia</strong><span>Finca El Paraíso · Caturra & Castillo · caramel, red apple, cocoa</span></li>
+          <li><strong>Nyeri, Kenya</strong><span>SL28 / SL34 · washed · blackcurrant, grapefruit, brown sugar</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ch" id="harvest" data-c="01" data-t="Harvest" data-bg="01">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">01b — Harvest window</p>
+        <h2>We buy in season,<br>not from a warehouse.</h2>
+        <p class="body">Ethiopia lands October through January. Colombia twice a year. Kenya in the main crop. Bags rest 10–14 days after roast before they leave Portland.</p>
+      </div>
+    </section>
+    <section class="ch" id="ch02" data-c="02" data-t="The Roast" data-bg="02">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">02 — The Roast</p>
+        <h2>Heat as a<br>craft tool.</h2>
+        <p class="body">Every lot is profiled on a 15kg Probat. First crack is a decision, not a finish line. We roast for sweetness and structure — darkness is never the default.</p>
+        <div class="curve">
+          <svg viewBox="0 0 640 280" role="img" aria-label="Roast temperature curve">
+            <defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c45c26" stop-opacity=".35"/><stop offset="100%" stop-color="#c45c26" stop-opacity="0"/></linearGradient></defs>
+            <g class="g"><line x1="60" y1="40" x2="60" y2="230"/><line x1="60" y1="230" x2="600" y2="230"/><line x1="60" y1="90" x2="600" y2="90" stroke-dasharray="4 6"/><line x1="60" y1="160" x2="600" y2="160" stroke-dasharray="4 6"/></g>
+            <text x="16" y="48" class="axis">220°</text><text x="16" y="168" class="axis">160°</text><text x="52" y="258" class="axis">0:00</text><text x="560" y="258" class="axis">12:00</text>
+            <path fill="url(#cf)" d="M60,220 C140,210 180,190 240,150 C300,110 340,95 400,88 C460,82 520,78 600,72 L600,230 L60,230 Z"/>
+            <path class="cl" d="M60,220 C140,210 180,190 240,150 C300,110 340,95 400,88 C460,82 520,78 600,72"/>
+            <circle cx="400" cy="88" r="6" fill="#f4ead8"/><text x="412" y="78" class="axis">First crack</text>
+          </svg>
+          <div class="meta"><span>Charge 198°C</span><span>Turnaround 1:20</span><span>Drop 12:10 · 204°C</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="ch" id="lab" data-c="02" data-t="The Lab" data-bg="02">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">02b — Quality lab</p>
+        <h2>Cupped twice.<br>Shipped once.</h2>
+        <p class="body">Green is sampled on arrival. Roast is cupped 24 hours later against the previous lot. If the table does not match, the batch does not leave the warehouse.</p>
+        <div class="stats"><div><b>86+</b><span>SCA cupping score</span></div><div><b>48h</b><span>max rest before cafe</span></div><div><b>15kg</b><span>batch size</span></div></div>
+      </div>
+    </section>
+    <section class="ch" id="ch03" data-c="03" data-t="The Blend" data-bg="03">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">03 — The Blend</p>
+        <h2>Four signatures.<br>No filler.</h2>
+        <ol class="blist">
+          <li><div class="bh"><span class="n">Dawn Patrol</span><span class="ty">Espresso · Medium</span></div><p>Colombia Huila + Brazil Cerrado. Milk chocolate, toasted almond, orange zest.</p></li>
+          <li><div class="bh"><span class="n">Highland Ghost</span><span class="ty">Filter · Light</span></div><p>Ethiopia Yirgacheffe natural. Jasmine, bergamot, white peach. Best as V60.</p></li>
+          <li><div class="bh"><span class="n">Warehouse Dark</span><span class="ty">Omni · Medium-dark</span></div><p>Guatemala Antigua + Sumatra. Dark cocoa, cedar, molasses. Full body, no bitterness.</p></li>
+          <li><div class="bh"><span class="n">Nomad House</span><span class="ty">Drip · Medium</span></div><p>Seasonal rotating lot. Currently Kenya Nyeri. Blackcurrant, grapefruit, cane sugar.</p></li>
+        </ol>
+      </div>
+    </section>
+    <section class="ch" id="ch04" data-c="04" data-t="Brew Guide" data-bg="04">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">04 — Brew Guide</p>
+        <h2>Three ways<br>to the cup.</h2>
+        <div class="tabs" role="tablist">
+          <button class="on" data-tab="pour">Pour-over</button>
+          <button data-tab="esp">Espresso</button>
+          <button data-tab="press">French press</button>
+        </div>
+        <div class="panel on" id="pour"><ol><li>Rinse a V60. 20g coffee, medium-fine.</li><li>Bloom 50g water at 96°C for 30 seconds.</li><li>Pulse to 150g by 1:00, then 320g by 2:15.</li><li>Finish draining around 2:45–3:00.</li></ol></div>
+        <div class="panel" id="esp"><ol><li>18g in, 36g out, 26–30 seconds.</li><li>Stream should look like warm honey.</li><li>Dawn Patrol at 1:2. Highland Ghost at 1:2.2.</li><li>Purge the group between shots.</li></ol></div>
+        <div class="panel" id="press"><ol><li>30g coarse to 500g water at 94°C.</li><li>Stir at 0:30, steep four minutes.</li><li>Skim crust, plunge slowly, decant.</li><li>Best with Warehouse Dark and House.</li></ol></div>
+      </div>
+    </section>
+    <section class="ch" id="ch05" data-c="05" data-t="Visit" data-bg="05">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">05 — Visit the roastery</p>
+        <h2>Open doors.<br>Open roaster.</h2>
+        <div class="g3">
+          <div><h3>Cafe</h3><p>Mon–Fri 7:00–17:00<br>Sat–Sun 8:00–16:00</p></div>
+          <div><h3>Tours</h3><p>Saturdays 11:00<br>Eight guests, book ahead</p></div>
+          <div><h3>Address</h3><p>9 Warehouse District<br>Portland, OR 97209</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="hours" id="hours">
+      <p class="k">Cafe menu, always on</p>
+      <h2>What we pour.</h2>
+      <div class="g3">
+        <div><h3>Espresso bar</h3><p>Dawn Patrol as house espresso. Cortado, flat white, and a 6oz cappuccino. Oat and whole milk.</p></div>
+        <div><h3>Batch &amp; V60</h3><p>Highland Ghost and the rotating Kenya on filter. Ask for a side-by-side.</p></div>
+        <div><h3>Food</h3><p>Cardamom bun, sesame bagel, and a rotating lunch from neighboring kitchens.</p></div>
+      </div>
+    </section>
+    <section class="wh" id="wh">
+      <p class="k">06 — Wholesale</p>
+      <h2>For cafes that<br>cup with us.</h2>
+      <p class="body">We supply a short list of shops in Oregon and Washington. Training, water recipes, and a standing cupping once a month. Minimum two 5lb bags per week.</p>
+      <a class="btn btn-t" href="mailto:hello@nomadroasters.com?subject=Wholesale">Request wholesale</a>
+    </section>
+    <section class="ev" id="events">
+      <p class="k">Public cuppings</p>
+      <h2>Come taste with the team.</h2>
+      <ul>
+        <li><time>SAT 11:00</time><div><strong>Roastery tour + cupping</strong><p>Walk the Probat, then six coffees on the table. $18, includes a 250g bag.</p></div></li>
+        <li><time>THU 18:00</time><div><strong>Home-brew clinic</strong><p>Bring your grinder. We dial in V60 and AeroPress. Free with any bag.</p></div></li>
+        <li><time>1ST FRI</time><div><strong>New crop tasting</strong><p>When a container lands, we open it with guests. Limited to twenty.</p></div></li>
+      </ul>
+    </section>
+    <section class="journal" id="journal">
+      <p class="k">From the warehouse</p>
+      <h2>Notes from the bench.</h2>
+      <div class="jgrid">
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80" alt="Green coffee sacks" loading="lazy">
+          <div><span class="k">Sourcing</span><h3>Why we still fly to Huila</h3><p>Screenshots of a mill do not replace standing in the drying patio with Camilo.</p></div>
+        </article>
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80" alt="Espresso extraction" loading="lazy">
+          <div><span class="k">Roast</span><h3>Dropping Dawn Patrol 2 degrees</h3><p>A small change in development time brought back the orange zest.</p></div>
+        </article>
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Cafe pour" loading="lazy">
+          <div><span class="k">Cafe</span><h3>Water in Portland is not neutral</h3><p>We remineralize for espresso. Filter gets a different recipe.</p></div>
+        </article>
+      </div>
+    </section>
+    <section class="ch" id="ch06" data-c="06" data-t="Subscribe" data-bg="06">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1453614512568-7af3a797241f?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">07 — Subscribe &amp; order</p>
+        <h2>A bag on<br>your stoop.</h2>
+        <form id="orderForm">
+          <label>Blend<select name="blend" required><option value="">Select</option><option>Dawn Patrol</option><option>Highland Ghost</option><option>Warehouse Dark</option><option>Nomad House</option></select></label>
+          <label>Grind<select name="grind" required><option value="">Select</option><option>Whole bean</option><option>Espresso</option><option>Pour-over</option><option>French press</option></select></label>
+          <label>Frequency<select name="freq" required><option value="">How often</option><option>One-time</option><option>Every 2 weeks</option><option>Monthly</option></select></label>
+          <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+          <button class="btn btn-t" type="submit">Place order</button>
+          <p class="note" id="formNote" hidden>Thank you. We will confirm by email.</p>
+        </form>
+      </div>
+    </section>
+    <section class="faq" id="faq">
+      <p class="k">Before you ask</p>
+      <h2>Shipping, grind, freshness.</h2>
+      <details><summary>When do you roast my bag?</summary><p>Subscription bags roast Monday and Thursday. One-time orders ship within two roast days of payment.</p></details>
+      <details><summary>Do you ship whole bean only?</summary><p>No. We grind for espresso, pour-over, and press if you ask. Whole bean still tastes better after day three.</p></details>
+      <details><summary>Can I visit without a tour?</summary><p>Yes. The cafe is walk-in. The roastery floor is tours and wholesale by appointment.</p></details>
+      <details><summary>Do you take wholesale outside Oregon?</summary><p>Washington yes. Beyond that we talk if you already have a service relationship nearby.</p></details>
+    </section>
+  </main>
+  <footer>
+    <div class="fbrand">Nomad Roasters</div>
+    <div class="fcols">
+      <p>9 Warehouse District<br>Portland, OR 97209, USA</p>
+      <p><a href="tel:+15035550164">+1 503 555 0164</a><br><a href="mailto:hello@nomadroasters.com">hello@nomadroasters.com</a></p>
+      <p>Mon–Fri 7:00–17:00<br>Sat–Sun 8:00–16:00</p>
+    </div>
+    <p class="copy">© 2026 Nomad Roasters. Roasted in Portland.</p>
+  </footer>
+  <script>
+    (function(){
+      var chs=document.querySelectorAll("[data-c]");
+      var layers=document.querySelectorAll(".bg-layer");
+      var cn=document.getElementById("cn");
+      var ct=document.getElementById("ct");
+      var tog=document.getElementById("navT");
+      var nl=document.getElementById("navL");
+      function setBg(k){layers.forEach(function(l){l.classList.toggle("is-active",l.dataset.bg===k)})}
+      var io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;cn.textContent=el.dataset.c;ct.textContent=el.dataset.t;setBg(el.dataset.bg||el.dataset.c);el.classList.add("in-view")})},{threshold:.42});
+      chs.forEach(function(c){io.observe(c)});
+      tog.addEventListener("click",function(){nl.classList.toggle("open")});
+      nl.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){nl.classList.remove("open")})});
+      document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");document.querySelectorAll(".panel").forEach(function(p){p.classList.toggle("on",p.id===b.dataset.tab)})})});
+      document.getElementById("orderForm").addEventListener("submit",function(e){e.preventDefault();document.getElementById("formNote").hidden=false;e.target.reset()});
+    })();
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomad Roasters | Small-Batch Coffee, Portland</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--t:#c45c26;--td:#9a3f16;--b:#23140e;--c:#f4ead8;--cd:#e8d9c0;--ink:#1c120c;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Outfit",system-ui,sans-serif}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--b);color:var(--c);overflow-x:hidden}
+    img{max-width:100%;display:block;width:100%;height:100%;object-fit:cover}
+    a{color:inherit;text-decoration:none}
+    .grain{pointer-events:none;position:fixed;inset:0;z-index:40;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .bg-stack{position:fixed;inset:0;z-index:0}
+    .bg-layer{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease;filter:saturate(.8) brightness(.42)}
+    .bg-layer.is-active{opacity:1}
+    .bg-stack::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,14,8,.3),rgba(26,14,8,.72))}
+    .ind{position:fixed;top:1.3rem;right:1.4rem;z-index:50;text-align:right}
+    .ind b{display:block;font-family:var(--serif);font-size:2.4rem;line-height:1}
+    .ind small{display:block;letter-spacing:.2em;text-transform:uppercase;font-size:.65rem;opacity:.7}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:45;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem}
+    .logo{font-family:var(--serif);font-size:1.35rem}.logo i{font-style:italic;opacity:.75;margin-left:.25rem}
+    .nav-tog{display:none;background:0;border:0;width:28px;height:18px;position:relative;cursor:pointer}
+    .nav-tog span{position:absolute;left:0;right:0;height:1.5px;background:var(--c)}.nav-tog span:first-child{top:4px}.nav-tog span:last-child{bottom:4px}
+    .nav-links{display:flex;gap:1.15rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+    .nav-links a{opacity:.8}.nav-links a:hover{opacity:1;color:var(--cd)}
+    .ch{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding:6.5rem 8vw 4rem}
+    .mimg{display:none}
+    .k{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--t);margin-bottom:1.1rem}
+    h1,h2{font-family:var(--serif);font-weight:500;line-height:.95}
+    h1{font-size:clamp(3.2rem,8.5vw,7rem);margin-bottom:1.3rem}
+    h2{font-size:clamp(2.4rem,5.4vw,4.6rem);margin-bottom:1.2rem}
+    .lead,.body{max-width:38rem;font-weight:300;line-height:1.75;opacity:.9}
+    .btn{display:inline-flex;align-items:center;padding:.95rem 1.5rem;border:0;cursor:pointer;font-family:var(--sans);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:transform .25s}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-c{background:var(--c);color:var(--b)}.btn-t{background:var(--t);color:var(--c)}
+    .hero{align-items:flex-end;padding-bottom:7rem}
+    .steam{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+    .steam span{position:absolute;bottom:18%;width:80px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(244,234,216,.22),transparent 70%);filter:blur(12px);animation:st 7s ease-in-out infinite}
+    .steam span:nth-child(1){left:12%}.steam span:nth-child(2){left:28%;animation-delay:1.2s}.steam span:nth-child(3){left:52%;animation-delay:.6s}.steam span:nth-child(4){left:70%;animation-delay:2s}.steam span:nth-child(5){left:84%;animation-delay:1.4s;width:50px}
+    @keyframes st{0%{transform:translateY(40px) scale(.7);opacity:0}30%{opacity:.7}100%{transform:translateY(-220px) scale(1.4);opacity:0}}
+    .scroll{position:absolute;bottom:2rem;left:8vw;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;opacity:.7}
+    .olist,.blist{list-style:none;margin-top:1.8rem;border-top:1px solid rgba(244,234,216,.18)}
+    .olist li,.blist li{padding:1.1rem 0;border-bottom:1px solid rgba(244,234,216,.18)}
+    .olist strong,.blist .n{display:block;font-family:var(--serif);font-size:1.55rem;font-weight:500}
+    .olist span{font-size:.9rem;opacity:.75;font-weight:300}
+    .bh{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;margin-bottom:.35rem}
+    .ty{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t);white-space:nowrap}
+    .curve{margin-top:1.6rem;max-width:640px}
+    .curve svg{width:100%;height:auto}
+    .g line{stroke:rgba(244,234,216,.25)}
+    .axis{fill:rgba(244,234,216,.55);font-size:11px;font-family:var(--sans)}
+    .cl{fill:none;stroke:var(--t);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900}
+    .in-view .cl{animation:dr 2.2s ease forwards}
+    @keyframes dr{to{stroke-dashoffset:0}}
+    .meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.7rem;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+    .tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.4rem 0}
+    .tabs button{background:0;border:1px solid rgba(244,234,216,.28);color:var(--c);padding:.55rem 1rem;font-family:var(--sans);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+    .tabs button.on{background:var(--c);color:var(--b);border-color:var(--c)}
+    .panel{display:none}.panel.on{display:block}
+    .panel ol{padding-left:1.2rem;line-height:1.9;font-weight:300}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:1.8rem;max-width:46rem}
+    .g3 h3{font-family:var(--serif);font-size:1.35rem;font-weight:500;margin-bottom:.35rem}
+    .g3 p{font-weight:300;line-height:1.6;opacity:.85}
+    form{display:grid;gap:.9rem;margin-top:1.4rem;max-width:28rem}
+    label{display:grid;gap:.35rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+    input,select,textarea{background:rgba(244,234,216,.08);border:1px solid rgba(244,234,216,.22);color:var(--c);padding:.85rem;font-family:var(--sans);font-size:.95rem}
+    option{color:var(--b)}
+    .note{font-size:.9rem;color:var(--cd)}
+    .hours{position:relative;z-index:2;padding:4.5rem 8vw;background:#1a100b}
+    .hours h2{margin-bottom:1.5rem}
+    .faq{position:relative;z-index:2;padding:4.5rem 8vw;background:#160e09}
+    details{border-bottom:1px solid rgba(244,234,216,.15);padding:1rem 0}
+    summary{cursor:pointer;font-family:var(--serif);font-size:1.35rem;list-style:none}
+    details p{margin-top:.6rem;opacity:.8;font-weight:300;max-width:40rem;line-height:1.7}
+    .wh{position:relative;z-index:2;padding:5rem 8vw;background:rgba(22,14,9,.55)}
+    .stats{display:flex;flex-wrap:wrap;gap:2.2rem;margin-top:1.6rem}
+    .stats b{display:block;font-family:var(--serif);font-size:2.4rem}
+    .stats span{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+    .journal{position:relative;z-index:2;padding:5rem 8vw}
+    .jgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1.6rem}
+    .jcard{background:rgba(244,234,216,.06);border:1px solid rgba(244,234,216,.12)}
+    .jcard img{height:180px}
+    .jcard div{padding:1.1rem}
+    .jcard h3{font-family:var(--serif);font-size:1.3rem;margin:.3rem 0}
+    .jcard p{font-size:.9rem;opacity:.75;font-weight:300;line-height:1.55}
+    .ev{position:relative;z-index:2;padding:5rem 8vw;background:#1a100b}
+    .ev ul{list-style:none;margin-top:1.4rem}
+    .ev li{display:grid;grid-template-columns:7rem 1fr;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(244,234,216,.15)}
+    .ev time{color:var(--t);font-size:.8rem;letter-spacing:.08em}
+    footer{position:relative;z-index:2;background:#110b08;padding:3.2rem 8vw 2rem}
+    .fbrand{font-family:var(--serif);font-size:1.8rem;margin-bottom:1.2rem}
+    .fcols{display:flex;gap:3.5rem;font-weight:300;line-height:1.7;opacity:.85;flex-wrap:wrap}
+    .copy{margin-top:1.8rem;font-size:.75rem;opacity:.5}
+    @media(max-width:900px){
+      .nav-tog{display:block;z-index:60}
+      .nav-links{position:fixed;inset:0;background:var(--b);flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;font-size:1rem;transform:translateY(-100%);transition:transform .35s}
+      .nav-links.open{transform:none}
+      .ind{top:auto;bottom:1rem;right:1rem;background:rgba(26,14,8,.75);padding:.5rem .7rem}
+      .ind b{font-size:1.5rem}
+      .bg-stack{display:none}
+      .ch{min-height:auto;flex-direction:column;align-items:stretch;padding:0 0 3.2rem;background:var(--b)}
+      .hero{min-height:100vh;min-height:100dvh;background:linear-gradient(180deg,rgba(26,14,8,.2),rgba(26,14,8,.82)),url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80") center/cover;padding:7rem 6vw 5rem;justify-content:flex-end}
+      .mimg{display:block;height:46vw;min-height:190px;max-height:280px;background-size:cover;background-position:center;margin-bottom:1.6rem}
+      .cc{padding:0 6vw}
+      .g3,.jgrid{grid-template-columns:1fr}
+      .bh{flex-direction:column;gap:.2rem}
+      .hours,.faq,.wh,.journal,.ev,footer{padding-left:6vw;padding-right:6vw}
+      .fcols{flex-direction:column;gap:1rem}
+      .scroll{left:6vw}
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="bg-stack" aria-hidden="true">
+    <div class="bg-layer is-active" data-bg="00" style="background-image:url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="01" style="background-image:url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="02" style="background-image:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="03" style="background-image:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="04" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="05" style="background-image:url('https://images.unsplash.com/photo-1453614512568-7af3a797241f?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-layer" data-bg="06" style="background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1920&q=80')"></div>
+  </div>
+  <aside class="ind"><small id="ct">Prologue</small><b id="cn">00</b></aside>
+  <header class="nav">
+    <a class="logo" href="#hero">Nomad<i>Roasters</i></a>
+    <button class="nav-tog" id="navT" aria-label="Menu"><span></span><span></span></button>
+    <nav class="nav-links" id="navL">
+      <a href="#ch01">Origin</a><a href="#ch02">Roast</a><a href="#ch03">Blends</a>
+      <a href="#ch04">Brew</a><a href="#hours">Cafe</a><a href="#wh">Wholesale</a><a href="#ch06">Subscribe</a>
+    </nav>
+  </header>
+  <main>
+    <section class="ch hero" id="hero" data-c="00" data-t="Prologue" data-bg="00">
+      <div class="steam"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <p class="k">Portland · Est. 2014 · Warehouse District</p>
+        <h1>From soil<br><em>to sip.</em></h1>
+        <p class="lead">A specialty roastery that traces every bag to a named farm. Small lots, one 15kg Probat, and a cafe that still smells like first crack.</p>
+        <a class="btn btn-c" href="#ch01">Begin the journey</a>
+      </div>
+      <div class="scroll">Scroll the chapters</div>
+    </section>
+    <section class="ch" id="ch01" data-c="01" data-t="The Origin" data-bg="01">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">01 — The Origin</p>
+        <h2>Grown high.<br>Picked by hand.</h2>
+        <p class="body">We buy washed and natural lots from farms we have stood on. Elevation, cultivar, and the farmer’s name sit on every bag — never a vague “blend of origins.”</p>
+        <ul class="olist">
+          <li><strong>Yirgacheffe, Ethiopia</strong><span>1,900–2,200 m · heirloom · jasmine, bergamot, white peach</span></li>
+          <li><strong>Huila, Colombia</strong><span>Finca El Paraíso · Caturra & Castillo · caramel, red apple, cocoa</span></li>
+          <li><strong>Nyeri, Kenya</strong><span>SL28 / SL34 · washed · blackcurrant, grapefruit, brown sugar</span></li>
+        </ul>
+      </div>
+    </section>
+    <section class="ch" id="harvest" data-c="01" data-t="Harvest" data-bg="01">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">01b — Harvest window</p>
+        <h2>We buy in season,<br>not from a warehouse.</h2>
+        <p class="body">Ethiopia lands October through January. Colombia twice a year. Kenya in the main crop. Bags rest 10–14 days after roast before they leave Portland.</p>
+      </div>
+    </section>
+    <section class="ch" id="ch02" data-c="02" data-t="The Roast" data-bg="02">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">02 — The Roast</p>
+        <h2>Heat as a<br>craft tool.</h2>
+        <p class="body">Every lot is profiled on a 15kg Probat. First crack is a decision, not a finish line. We roast for sweetness and structure — darkness is never the default.</p>
+        <div class="curve">
+          <svg viewBox="0 0 640 280" role="img" aria-label="Roast temperature curve">
+            <defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c45c26" stop-opacity=".35"/><stop offset="100%" stop-color="#c45c26" stop-opacity="0"/></linearGradient></defs>
+            <g class="g"><line x1="60" y1="40" x2="60" y2="230"/><line x1="60" y1="230" x2="600" y2="230"/><line x1="60" y1="90" x2="600" y2="90" stroke-dasharray="4 6"/><line x1="60" y1="160" x2="600" y2="160" stroke-dasharray="4 6"/></g>
+            <text x="16" y="48" class="axis">220°</text><text x="16" y="168" class="axis">160°</text><text x="52" y="258" class="axis">0:00</text><text x="560" y="258" class="axis">12:00</text>
+            <path fill="url(#cf)" d="M60,220 C140,210 180,190 240,150 C300,110 340,95 400,88 C460,82 520,78 600,72 L600,230 L60,230 Z"/>
+            <path class="cl" d="M60,220 C140,210 180,190 240,150 C300,110 340,95 400,88 C460,82 520,78 600,72"/>
+            <circle cx="400" cy="88" r="6" fill="#f4ead8"/><text x="412" y="78" class="axis">First crack</text>
+          </svg>
+          <div class="meta"><span>Charge 198°C</span><span>Turnaround 1:20</span><span>Drop 12:10 · 204°C</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="ch" id="lab" data-c="02" data-t="The Lab" data-bg="02">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">02b — Quality lab</p>
+        <h2>Cupped twice.<br>Shipped once.</h2>
+        <p class="body">Green is sampled on arrival. Roast is cupped 24 hours later against the previous lot. If the table does not match, the batch does not leave the warehouse.</p>
+        <div class="stats"><div><b>86+</b><span>SCA cupping score</span></div><div><b>48h</b><span>max rest before cafe</span></div><div><b>15kg</b><span>batch size</span></div></div>
+      </div>
+    </section>
+    <section class="ch" id="ch03" data-c="03" data-t="The Blend" data-bg="03">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">03 — The Blend</p>
+        <h2>Four signatures.<br>No filler.</h2>
+        <ol class="blist">
+          <li><div class="bh"><span class="n">Dawn Patrol</span><span class="ty">Espresso · Medium</span></div><p>Colombia Huila + Brazil Cerrado. Milk chocolate, toasted almond, orange zest.</p></li>
+          <li><div class="bh"><span class="n">Highland Ghost</span><span class="ty">Filter · Light</span></div><p>Ethiopia Yirgacheffe natural. Jasmine, bergamot, white peach. Best as V60.</p></li>
+          <li><div class="bh"><span class="n">Warehouse Dark</span><span class="ty">Omni · Medium-dark</span></div><p>Guatemala Antigua + Sumatra. Dark cocoa, cedar, molasses. Full body, no bitterness.</p></li>
+          <li><div class="bh"><span class="n">Nomad House</span><span class="ty">Drip · Medium</span></div><p>Seasonal rotating lot. Currently Kenya Nyeri. Blackcurrant, grapefruit, cane sugar.</p></li>
+        </ol>
+      </div>
+    </section>
+    <section class="ch" id="ch04" data-c="04" data-t="Brew Guide" data-bg="04">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">04 — Brew Guide</p>
+        <h2>Three ways<br>to the cup.</h2>
+        <div class="tabs" role="tablist">
+          <button class="on" data-tab="pour">Pour-over</button>
+          <button data-tab="esp">Espresso</button>
+          <button data-tab="press">French press</button>
+        </div>
+        <div class="panel on" id="pour"><ol><li>Rinse a V60. 20g coffee, medium-fine.</li><li>Bloom 50g water at 96°C for 30 seconds.</li><li>Pulse to 150g by 1:00, then 320g by 2:15.</li><li>Finish draining around 2:45–3:00.</li></ol></div>
+        <div class="panel" id="esp"><ol><li>18g in, 36g out, 26–30 seconds.</li><li>Stream should look like warm honey.</li><li>Dawn Patrol at 1:2. Highland Ghost at 1:2.2.</li><li>Purge the group between shots.</li></ol></div>
+        <div class="panel" id="press"><ol><li>30g coarse to 500g water at 94°C.</li><li>Stir at 0:30, steep four minutes.</li><li>Skim crust, plunge slowly, decant.</li><li>Best with Warehouse Dark and House.</li></ol></div>
+      </div>
+    </section>
+    <section class="ch" id="ch05" data-c="05" data-t="Visit" data-bg="05">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">05 — Visit the roastery</p>
+        <h2>Open doors.<br>Open roaster.</h2>
+        <div class="g3">
+          <div><h3>Cafe</h3><p>Mon–Fri 7:00–17:00<br>Sat–Sun 8:00–16:00</p></div>
+          <div><h3>Tours</h3><p>Saturdays 11:00<br>Eight guests, book ahead</p></div>
+          <div><h3>Address</h3><p>9 Warehouse District<br>Portland, OR 97209</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="hours" id="hours">
+      <p class="k">Cafe menu, always on</p>
+      <h2>What we pour.</h2>
+      <div class="g3">
+        <div><h3>Espresso bar</h3><p>Dawn Patrol as house espresso. Cortado, flat white, and a 6oz cappuccino. Oat and whole milk.</p></div>
+        <div><h3>Batch &amp; V60</h3><p>Highland Ghost and the rotating Kenya on filter. Ask for a side-by-side.</p></div>
+        <div><h3>Food</h3><p>Cardamom bun, sesame bagel, and a rotating lunch from neighboring kitchens.</p></div>
+      </div>
+    </section>
+    <section class="wh" id="wh">
+      <p class="k">06 — Wholesale</p>
+      <h2>For cafes that<br>cup with us.</h2>
+      <p class="body">We supply a short list of shops in Oregon and Washington. Training, water recipes, and a standing cupping once a month. Minimum two 5lb bags per week.</p>
+      <a class="btn btn-t" href="mailto:hello@nomadroasters.com?subject=Wholesale">Request wholesale</a>
+    </section>
+    <section class="ev" id="events">
+      <p class="k">Public cuppings</p>
+      <h2>Come taste with the team.</h2>
+      <ul>
+        <li><time>SAT 11:00</time><div><strong>Roastery tour + cupping</strong><p>Walk the Probat, then six coffees on the table. $18, includes a 250g bag.</p></div></li>
+        <li><time>THU 18:00</time><div><strong>Home-brew clinic</strong><p>Bring your grinder. We dial in V60 and AeroPress. Free with any bag.</p></div></li>
+        <li><time>1ST FRI</time><div><strong>New crop tasting</strong><p>When a container lands, we open it with guests. Limited to twenty.</p></div></li>
+      </ul>
+    </section>
+    <section class="journal" id="journal">
+      <p class="k">From the warehouse</p>
+      <h2>Notes from the bench.</h2>
+      <div class="jgrid">
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=800&q=80" alt="Green coffee sacks" loading="lazy">
+          <div><span class="k">Sourcing</span><h3>Why we still fly to Huila</h3><p>Screenshots of a mill do not replace standing in the drying patio with Camilo.</p></div>
+        </article>
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80" alt="Espresso extraction" loading="lazy">
+          <div><span class="k">Roast</span><h3>Dropping Dawn Patrol 2 degrees</h3><p>A small change in development time brought back the orange zest.</p></div>
+        </article>
+        <article class="jcard">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Cafe pour" loading="lazy">
+          <div><span class="k">Cafe</span><h3>Water in Portland is not neutral</h3><p>We remineralize for espresso. Filter gets a different recipe.</p></div>
+        </article>
+      </div>
+    </section>
+    <section class="ch" id="ch06" data-c="06" data-t="Subscribe" data-bg="06">
+      <div class="mimg" style="background-image:url('https://images.unsplash.com/photo-1453614512568-7af3a797241f?auto=format&fit=crop&w=1200&q=80')"></div>
+      <div class="cc">
+        <p class="k">07 — Subscribe &amp; order</p>
+        <h2>A bag on<br>your stoop.</h2>
+        <form id="orderForm">
+          <label>Blend<select name="blend" required><option value="">Select</option><option>Dawn Patrol</option><option>Highland Ghost</option><option>Warehouse Dark</option><option>Nomad House</option></select></label>
+          <label>Grind<select name="grind" required><option value="">Select</option><option>Whole bean</option><option>Espresso</option><option>Pour-over</option><option>French press</option></select></label>
+          <label>Frequency<select name="freq" required><option value="">How often</option><option>One-time</option><option>Every 2 weeks</option><option>Monthly</option></select></label>
+          <label>Email<input type="email" name="email" placeholder="you@example.com" required></label>
+          <button class="btn btn-t" type="submit">Place order</button>
+          <p class="note" id="formNote" hidden>Thank you. We will confirm by email.</p>
+        </form>
+      </div>
+    </section>
+    <section class="faq" id="faq">
+      <p class="k">Before you ask</p>
+      <h2>Shipping, grind, freshness.</h2>
+      <details><summary>When do you roast my bag?</summary><p>Subscription bags roast Monday and Thursday. One-time orders ship within two roast days of payment.</p></details>
+      <details><summary>Do you ship whole bean only?</summary><p>No. We grind for espresso, pour-over, and press if you ask. Whole bean still tastes better after day three.</p></details>
+      <details><summary>Can I visit without a tour?</summary><p>Yes. The cafe is walk-in. The roastery floor is tours and wholesale by appointment.</p></details>
+      <details><summary>Do you take wholesale outside Oregon?</summary><p>Washington yes. Beyond that we talk if you already have a service relationship nearby.</p></details>
+    </section>
+  </main>
+  <footer>
+    <div class="fbrand">Nomad Roasters</div>
+    <div class="fcols">
+      <p>9 Warehouse District<br>Portland, OR 97209, USA</p>
+      <p><a href="tel:+15035550164">+1 503 555 0164</a><br><a href="mailto:hello@nomadroasters.com">hello@nomadroasters.com</a></p>
+      <p>Mon–Fri 7:00–17:00<br>Sat–Sun 8:00–16:00</p>
+    </div>
+    <p class="copy">© 2026 Nomad Roasters. Roasted in Portland.</p>
+  </footer>
+  <script>
+    (function(){
+      var chs=document.querySelectorAll("[data-c]");
+      var layers=document.querySelectorAll(".bg-layer");
+      var cn=document.getElementById("cn");
+      var ct=document.getElementById("ct");
+      var tog=document.getElementById("navT");
+      var nl=document.getElementById("navL");
+      function setBg(k){layers.forEach(function(l){l.classList.toggle("is-active",l.dataset.bg===k)})}
+      var io=new IntersectionObserver(function(ents){ents.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;cn.textContent=el.dataset.c;ct.textContent=el.dataset.t;setBg(el.dataset.bg||el.dataset.c);el.classList.add("in-view")})},{threshold:.42});
+      chs.forEach(function(c){io.observe(c)});
+      tog.addEventListener("click",function(){nl.classList.toggle("open")});
+      nl.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){nl.classList.remove("open")})});
+      document.querySelectorAll(".tabs button").forEach(function(b){b.addEventListener("click",function(){document.querySelectorAll(".tabs button").forEach(function(x){x.classList.remove("on")});b.classList.add("on");document.querySelectorAll(".panel").forEach(function(p){p.classList.toggle("on",p.id===b.dataset.tab)})})});
+      document.getElementById("orderForm").addEventListener("submit",function(e){e.preventDefault();document.getElementById("formNote").hidden=false;e.target.reset()});
+    })();
+  </script>
+</body>
+</html>
